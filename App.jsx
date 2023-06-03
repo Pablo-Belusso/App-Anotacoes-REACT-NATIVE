@@ -34,12 +34,37 @@ export default function App() {
           <Text style={estilos.anotacao}>{anotacao}</Text>
         </View>
 
-        <TouchableOpacity style={estilos.btnAnotacao}>
+        <TouchableOpacity
+          onPress={() => setarEstado('atualizando')}
+          style={estilos.btnAnotacao}>
           <Text style={estilos.btnAnotacaotexto}>+</Text>
         </TouchableOpacity>
       </View>
     );
   } else if (estado == 'atualizando') {
+    return (
+      <View style={{flex: 1}}>
+        <StatusBar
+          barStyle="dark-content"
+          hidden={false}
+          backgroundColor="white"
+          translucent={false}
+          networkActivityIndicatorVisible={true}
+        />
+
+        <View style={estilos.header}>
+          <Text style={{textAlign: 'center', color: 'white', fontSize: 25}}>
+            Aplicativo Anotação
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => setarEstado('leitura')}
+          style={estilos.btnAnotacao}>
+          <Text style={estilos.btnSalvartexto}>Salvar</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 }
 
@@ -67,6 +92,11 @@ const estilos = StyleSheet.create({
   btnAnotacaotexto: {
     color: 'white',
     fontSize: 35,
+    fontWeight: '400',
+  },
+  btnSalvartexto: {
+    color: 'white',
+    fontSize: 20,
     fontWeight: '400',
   },
 });
