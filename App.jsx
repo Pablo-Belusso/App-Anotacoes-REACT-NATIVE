@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
   );
 
   if (estado == 'leitura') {
+    // Página Inicial
     return (
       <View style={{flex: 1}}>
         <StatusBar
@@ -35,13 +37,14 @@ export default function App() {
         </View>
 
         <TouchableOpacity
-          onPress={() => setarEstado('atualizando')}
+          onPress={() => setarEstado('atualizando')} // vai para página de Salvar
           style={estilos.btnAnotacao}>
           <Text style={estilos.btnAnotacaotexto}>+</Text>
         </TouchableOpacity>
       </View>
     );
   } else if (estado == 'atualizando') {
+    // Página Salvar
     return (
       <View style={{flex: 1}}>
         <StatusBar
@@ -58,8 +61,15 @@ export default function App() {
           </Text>
         </View>
 
+        <TextInput
+          onChangeText={text => setarAnotacao(text)} // permite alterar o texto
+          style={{padding: 15, height: 300, textAlignVertical: 'top'}} // tamanho do texto na tela
+          multiline={true}
+          numberOfLines={5}
+          value={anotacao}></TextInput>
+
         <TouchableOpacity
-          onPress={() => setarEstado('leitura')}
+          onPress={() => setarEstado('leitura')} // volta para a página inicial
           style={estilos.btnAnotacao}>
           <Text style={estilos.btnSalvartexto}>Salvar</Text>
         </TouchableOpacity>
