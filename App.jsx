@@ -6,13 +6,16 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 
 export default function App() {
   const [estado, setarEstado] = useState('leitura');
-  const [anotacao, setarAnotacao] = useState(
-    'Antes de mergulharmos em como usar useState dentro de useEffect, é importante entender a diferença entre estado e props no React.',
-  );
+  const [anotacao, setarAnotacao] = useState('');
+
+  function atualizarTexto() {
+    setarEstado('leitura');
+  }
 
   if (estado == 'leitura') {
     // Página Inicial
@@ -32,14 +35,26 @@ export default function App() {
           </Text>
         </View>
 
-        <View style={{padding: 20}}>
-          <Text style={estilos.anotacao}>{anotacao}</Text>
-        </View>
-
+        {anotacao != '' ? ( // Se anotacao não for vazia, irá fazer isso:
+          <View style={{padding: 20}}>
+            <Text style={estilos.anotacao}>{anotacao}</Text>
+          </View>
+        ) : (
+          // Senão irá fazer isso aqui:
+          <View style={{padding: 20}}>
+            <Text style={{opacity: 0.6, fontSize: 18}}>
+              Nenhuma anotação encontrada!
+            </Text>
+          </View>
+        )}
         <TouchableOpacity
           onPress={() => setarEstado('atualizando')} // vai para página de Salvar
           style={estilos.btnAnotacao}>
-          <Text style={estilos.btnAnotacaotexto}>+</Text>
+          {anotacao == '' ? (
+            <Text style={estilos.btnAnotacaotexto}>+</Text>
+          ) : (
+            <Text style={{color: 'white', fontSize: 20}}>Editar</Text>
+          )}
         </TouchableOpacity>
       </View>
     );
@@ -63,13 +78,20 @@ export default function App() {
 
         <TextInput
           onChangeText={text => setarAnotacao(text)} // permite alterar o texto
-          style={{padding: 15, height: 300, textAlignVertical: 'top'}} // tamanho do texto na tela
+          style={{
+            fontSize: 18,
+            padding: 20,
+            height: 300,
+            textAlignVertical: 'top',
+            color: 'red',
+            fontStyle: 'italic',
+          }} // tamanho do texto na tela
           multiline={true}
           numberOfLines={5}
           value={anotacao}></TextInput>
 
         <TouchableOpacity
-          onPress={() => setarEstado('leitura')} // volta para a página inicial
+          onPress={() => atualizarTexto()} // volta para a página inicial
           style={estilos.btnAnotacao}>
           <Text style={estilos.btnSalvartexto}>Salvar</Text>
         </TouchableOpacity>
