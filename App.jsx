@@ -6,15 +6,40 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
-  Alert,
+  AsyncStorage,
 } from 'react-native';
+
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [estado, setarEstado] = useState('leitura');
   const [anotacao, setarAnotacao] = useState('');
 
+  // Queremos que a anotação salva apareça quando abrirmos o APP:
+  useEffect(() => {
+    // Quando iniciar o APP queremos que leia a key "anotacao"
+    (async () => {
+      try {
+        const anotacaoLeitura = await AsyncStorage.getItem('anotacao');
+        setarAnotacao(anotacaoLeitura);
+      } catch (error) {
+        //console.log(error.message);
+        //alert('Deu ruim no get Item');
+      }
+    })();
+  });
+
+  setarData = async anotacao => {
+    try {
+      await AsyncStorage.setItem('anotacao', anotacao); // Salva a Key "anotacao"
+      alert('gravou a chave');
+    } catch (erro) {}
+    alert('Anotação Salva');
+  };
+
   function atualizarTexto() {
     setarEstado('leitura');
+    setarData();
   }
 
   if (estado == 'leitura') {
@@ -77,6 +102,7 @@ export default function App() {
         </View>
 
         <TextInput
+          autoFocus={true} // Deixa o cursor funcionando
           onChangeText={text => setarAnotacao(text)} // permite alterar o texto
           style={{
             fontSize: 18,
